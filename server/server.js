@@ -64,7 +64,7 @@ app.use(express.json());
 app.use(
   session({
     // TODO: add a SESSION_SECRET string in your .env file, and replace the secret with process.env.SESSION_SECRET
-    secret: "session-secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -73,24 +73,32 @@ app.use(
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
 
+// mount API routes here
+const mapsRouter = require("./routes/maps");
+const uploadRouter = require("./routes/upload");
+
+app.use("/api/maps", mapsRouter);
+app.use("/api/upload", uploadRouter);
+
 // connect user-defined routes
 app.use("/api", api);
 
-// load the compiled react files, which will serve /index.html and /bundle.js
-const reactPath = path.resolve(__dirname, "..", "client", "dist");
-app.use(express.static(reactPath));
+// make the "uploads" folder publicly accessible
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// for all other routes, render index.html and let react router handle it
-app.get("*", (req, res) => {
-  res.sendFile(path.join(reactPath, "index.html"), (err) => {
-    if (err) {
-      console.log("Error sending client/dist/index.html:", err.status || 500);
-      res
-        .status(err.status || 500)
-        .send("Error sending client/dist/index.html - have you run `npm run build`?");
-    }
+if (process.env.NODE_ENV === "production") {
+  const reactPath = path.resolve(__dirname, "..", "client", "dist");
+  app.use(express.static(reactPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(reactPath, "index.html"), (err) => {
+      if (err) {
+        console.log("Error sending client dist index.html:", err.status || 500);
+        res.status(err.status || 500).send("Error sending client dist index.html");
+      }
+    });
   });
-});
+}
 
 // any server errors cause this function to run
 app.use((err, req, res, next) => {
@@ -113,10 +121,20 @@ const port = 3000;
 const server = http.Server(app);
 socketManager.init(server);
 
-server.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
-});
+mongoose
+  .connect(mongoConnectionURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: databaseName,
+  })
+  .then(async () => {
+    console.log("Connected to MongoDB");
 
-// seed the default map and cells
-const { seedDefaultMap } = require("./seed");
-seedDefaultMap().catch(console.error);
+    const { seedDefaultMap } = require("./seed");
+    await seedDefaultMap();
+
+    server.listen(port, () => {
+      console.log(`Server running on port: ${port}`);
+    });
+  })
+  .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));

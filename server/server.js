@@ -116,3 +116,7 @@ socketManager.init(server);
 server.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
+
+// seed the default map and cells
+const { seedDefaultMap } = require("./seed");
+seedDefaultMap().catch(console.error);

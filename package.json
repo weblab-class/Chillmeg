@@ -18,7 +18,7 @@
   "license": "ISC",
   "homepage": "",
   "engines": {
-    "node": ">=18.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@lumaai/luma-web": "^0.2.2",

@@ -6,7 +6,8 @@ const SplatSchema = new mongoose.Schema(
     mapId: { type: mongoose.Schema.Types.ObjectId, ref: "Map", required: true },
     cellId: { type: mongoose.Schema.Types.ObjectId, ref: "Cell", required: true },
     status: { type: String, enum: ["queued", "ready", "failed"], default: "queued" },
-    videoUrl: { type: String, required: true },
+
+    assetUrl: { type: String, required: true },
     placeholderUrl: { type: String, required: true },
   },
   { timestamps: true }

@@ -5,7 +5,7 @@ import Skeleton from "./components/pages/Skeleton";
 import NotFound from "./components/pages/NotFound";
 
 import Login from "./components/pages/Login";
-//import MapPage from "./components/pages/MapPage";
+import Maps from "./components/pages/Maps";
 
 import {
   createBrowserRouter,
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
     <Route errorElement={<NotFound />} element={<App />}>
       <Route path="/" element={<Skeleton />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/maps" element={<Skeleton />} />
+      <Route path="/maps" element={<Maps />} />
     </Route>
   )
 );

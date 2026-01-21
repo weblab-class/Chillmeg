@@ -38,6 +38,7 @@ mongoose.set("strictQuery", false);
 
 // Create the Express app
 const app = express();
+app.set("trust proxy", true);
 
 // Staff validator that checks route setup
 app.use(validator.checkRoutes);
@@ -85,10 +86,13 @@ app.use(auth.populateCurrentUser);
 const mapsRouter = require("./routes/maps");
 const uploadRouter = require("./routes/upload");
 const lumaRouter = require("./routes/luma");
+const splatsRouter = require("./routes/splats");
 
 app.use("/api/maps", mapsRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/luma", lumaRouter);
+app.use("/api/splats", splatsRouter);
+
 app.use("/api", api); // keep the skeleton API last
 
 /*
@@ -147,12 +151,11 @@ app.use((err, req, res, next) => {
 |--------------------------------------------------------------------------
 | socketManager.init attaches socket.io to this server.
 */
-const port = 3000;
+const port = process.env.PORT || 3000;
 const server = http.Server(app);
 socketManager.init(server);
 
 /*
-|--------------------------------------------------------------------------
 | Connect to MongoDB ONCE, then seed, then listen
 |--------------------------------------------------------------------------
 | This is the part that fixes your earlier version.

@@ -32,6 +32,18 @@ async function apiUploadPly({ mapId, cellId, file }) {
   return res.json();
 }
 
+async function apiAttachLuma({ mapId, cellId, lumaCaptureUrl }) {
+  const res = await fetch("/api/luma/attach", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mapId, cellId, lumaCaptureUrl }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(text);
+  return JSON.parse(text);
+}
+
 function CellCard({ cell, onReserve }) {
   const clickable = cell.status === "empty";
 
@@ -89,6 +101,7 @@ export default function Maps() {
   const [file, setFile] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [lumaUrl, setLumaUrl] = useState("");
 
   const gridMode = 9;
 
@@ -154,6 +167,32 @@ export default function Maps() {
     }
   }
 
+  async function attachLuma() {
+    if (!selectedCell || !lumaUrl.trim()) return;
+    setBusy(true);
+    setError("");
+    try {
+      await apiAttachLuma({
+        mapId,
+        cellId: selectedCell._id,
+        lumaCaptureUrl: lumaUrl.trim(),
+      });
+      setSelectedCell(null);
+      setLumaUrl("");
+      await refreshCells(mapId);
+    } catch (e) {
+      const msg = String(e?.message || e);
+      try {
+        const parsed = JSON.parse(msg);
+        setError(parsed.error || msg);
+      } catch {
+        setError(msg);
+      }
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div style={{ padding: 24, maxWidth: 900, margin: "0 auto", color: "#fff" }}>
       <h1 style={{ marginTop: 0 }}>Starter Town</h1>
@@ -183,6 +222,38 @@ export default function Maps() {
         {cells.map((c) => (
           <CellCard key={c._id} cell={c} onReserve={() => reserveCell(c)} />
         ))}
+      </div>
+
+      <div style={{ marginTop: 18, padding: 12, border: "1px solid #222", borderRadius: 10 }}>
+        <div style={{ marginBottom: 8, opacity: 0.9 }}>
+          {selectedCell
+            ? `Selected cell ${selectedCell.cellIndex}`
+            : "Click an empty cell to reserve it"}
+        </div>
+
+        <input
+          type="text"
+          value={lumaUrl}
+          disabled={!selectedCell || busy}
+          onChange={(e) => setLumaUrl(e.target.value)}
+          placeholder="Paste Luma capture URL"
+          style={{
+            width: "100%",
+            padding: 10,
+            borderRadius: 8,
+            border: "1px solid #333",
+            background: "#0b0b0b",
+            color: "#fff",
+          }}
+        />
+
+        <button
+          onClick={attachLuma}
+          disabled={!selectedCell || !lumaUrl.trim() || busy}
+          style={{ marginTop: 10 }}
+        >
+          Attach capture
+        </button>
       </div>
 
       <div style={{ marginTop: 18, padding: 12, border: "1px solid #222", borderRadius: 10 }}>

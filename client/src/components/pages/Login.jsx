@@ -1,13 +1,13 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 
-export default function Login() {
+export default function Login({ onSuccess }) {
   return (
-    <div style={{ padding: 24, color: "#fff" }}>
-      <h1 style={{ marginTop: 0 }}>Sign in</h1>
+    <div style={{ color: "#fff" }}>
       <GoogleLogin
         onSuccess={(cred) => {
           console.log("google success", cred);
+          if (onSuccess) onSuccess(cred);
         }}
         onError={() => {
           console.log("google error");

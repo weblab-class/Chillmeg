@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 async function apiGet(url) {
   const res = await fetch(url, { credentials: "include" });
@@ -102,6 +103,8 @@ export default function Maps() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [lumaUrl, setLumaUrl] = useState("");
+
+  const navigate = useNavigate();
 
   const gridMode = 9;
 
@@ -214,6 +217,10 @@ export default function Maps() {
             ))}
           </select>
         </label>
+
+        <button onClick={() => navigate("/walk")} disabled={!mapId} style={{ padding: "6px 10px" }}>
+          Walk
+        </button>
 
         <div style={{ opacity: 0.8 }}>{busy ? "Working" : ""}</div>
       </div>

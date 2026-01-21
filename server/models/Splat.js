@@ -7,6 +7,8 @@ const SplatSchema = new mongoose.Schema(
     cellId: { type: mongoose.Schema.Types.ObjectId, ref: "Cell", required: true },
     status: { type: String, enum: ["queued", "ready", "failed"], default: "queued" },
 
+    lumaCaptureUrl: { type: String, default: "" },
+
     assetUrl: { type: String, required: true },
     placeholderUrl: { type: String, required: true },
   },

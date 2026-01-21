@@ -20,6 +20,7 @@
     "node": ">=18.x"
   },
   "dependencies": {
+    "@lumaai/luma-web": "^0.2.2",
     "@react-oauth/google": "^0.12.1",
     "connect-ensure-login": "^0.1.1",
     "core-js": "^3.8.1",
@@ -37,6 +38,7 @@
     "react-router-dom": "^6.0.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
+    "three": "^0.182.0",
     "url-loader": "^4.1.1"
   },
   "devDependencies": {

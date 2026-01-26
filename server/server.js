@@ -1,118 +1,184 @@
 /*
 |--------------------------------------------------------------------------
-| server.js -- The core of your server
+| server.js
 |--------------------------------------------------------------------------
+| This is the entry point for your backend.
+| It sets up Express, sessions, auth, API routes, static uploads, and starts the server.
 |
-| This file defines how your server starts up. Think of it as the main() of your server.
-| At a high level, this file does the following things:
-| - Connect to the database
-| - Sets up server middleware (i.e. addons that enable things like json parsing, user login)
-| - Hooks up all the backend routes specified in api.js
-| - Fowards frontend routes that should be handled by the React router
-| - Sets up error handling in case something goes wrong when handling a request
-| - Actually starts the webserver
+| Key idea:
+| 1) Configure middleware and routes
+| 2) Connect to MongoDB
+| 3) Seed default data
+| 4) Start listening on port 3000
 */
 
-// validator runs some basic checks to make sure you've set everything up correctly
-// this is a tool provided by staff, so you don't need to worry about it
 const validator = require("./validator");
-validator.checkSetup();
+validator.checkSetup(); // staff provided checks, keep this
 
-//allow us to use process.ENV
-require("dotenv").config();
+require("dotenv").config(); // loads .env into process.env
 
-//import libraries needed for the webserver to work!
+// Core libraries
 const http = require("http");
-const express = require("express"); // backend framework for our node server.
-const session = require("express-session"); // library that stores info about each connected user
-const mongoose = require("mongoose"); // library to connect to MongoDB
-const path = require("path"); // provide utilities for working with file and directory paths
+const express = require("express");
+const session = require("express-session");
+const mongoose = require("mongoose");
+const path = require("path");
 
-const api = require("./api");
-const auth = require("./auth");
+// Your project modules
+const api = require("./api"); // existing skeleton API routes
+const auth = require("./auth"); // populateCurrentUser middleware
+const socketManager = require("./server-socket"); // socket.io init
 
-// socket stuff
-const socketManager = require("./server-socket");
+// Mongo config
+const mongoConnectionURL = process.env.MONGO_SRV; // from your .env
+const databaseName = "PlaybackXR"; // your db name
 
-// Server configuration below
-// TODO change connection URL after setting up your team database
-const mongoConnectionURL = process.env.MONGO_SRV;
-// TODO change database name to the name you chose
-const databaseName = "PlaybackXR";
-
-// mongoose 7 warning
+// Mongoose setting that avoids warnings
 mongoose.set("strictQuery", false);
 
-// connect to mongodb
-mongoose
-  .connect(mongoConnectionURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: databaseName,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));
-
-// create a new express server
+// Create the Express app
 const app = express();
+app.set("trust proxy", true);
+
+// Staff validator that checks route setup
 app.use(validator.checkRoutes);
 
-// allow us to process POST requests
+// Parse JSON bodies for normal POST requests (not FormData)
 app.use(express.json());
 
-// set up a session, which will persist login data across requests
+/*
+|--------------------------------------------------------------------------
+| Sessions
+|--------------------------------------------------------------------------
+| This stores a session cookie in the browser.
+| When user logs in, their user id is saved in session.
+| Every future request sends the cookie automatically (when credentials include is used).
+*/
 app.use(
   session({
-    // TODO: add a SESSION_SECRET string in your .env file, and replace the secret with process.env.SESSION_SECRET
-    secret: "session-secret",
+    secret: process.env.SESSION_SECRET, // MUST exist in .env
     resave: false,
     saveUninitialized: false,
   })
 );
 
-// this checks if the user is logged in, and populates "req.user"
+/*
+|--------------------------------------------------------------------------
+| Auth middleware
+|--------------------------------------------------------------------------
+| This reads the session cookie and sets req.user if logged in.
+| Many routes use requireUser which checks req.user exists.
+*/
 app.use(auth.populateCurrentUser);
 
-// connect user-defined routes
-app.use("/api", api);
+/*
+|--------------------------------------------------------------------------
+| Route mounting
+|--------------------------------------------------------------------------
+| IMPORTANT:
+| /api/maps/...  handled by mapsRouter
+| /api/upload/... handled by uploadRouter
+| /api/luma/... handled by lumaRouter
+| /api/... handled by the original skeleton api.js
+|
+| This is why /api/luma/attach will work only if lumaRouter is mounted here.
+*/
+const mapsRouter = require("./routes/maps");
+const uploadRouter = require("./routes/upload");
+const lumaRouter = require("./routes/luma");
+const splatsRouter = require("./routes/splats");
 
-// load the compiled react files, which will serve /index.html and /bundle.js
-const reactPath = path.resolve(__dirname, "..", "client", "dist");
-app.use(express.static(reactPath));
+app.use("/api/maps", mapsRouter);
+app.use("/api/upload", uploadRouter);
+app.use("/api/luma", lumaRouter);
+app.use("/api/splats", splatsRouter);
 
-// for all other routes, render index.html and let react router handle it
-app.get("*", (req, res) => {
-  res.sendFile(path.join(reactPath, "index.html"), (err) => {
-    if (err) {
-      console.log("Error sending client/dist/index.html:", err.status || 500);
-      res
-        .status(err.status || 500)
-        .send("Error sending client/dist/index.html - have you run `npm run build`?");
-    }
+app.use("/api", api); // keep the skeleton API last
+
+/*
+|--------------------------------------------------------------------------
+| Static files for uploaded assets
+|--------------------------------------------------------------------------
+| Anything saved into server/uploads can be accessed at:
+| http://localhost:3000/uploads/<filename>
+| And through Vite proxy:
+| http://localhost:5173/uploads/<filename>
+*/
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+/*
+|--------------------------------------------------------------------------
+| Production build serving
+|--------------------------------------------------------------------------
+| Only runs when NODE_ENV=production.
+| In dev, Vite serves the React app at 5173, so you do not need this.
+*/
+if (process.env.NODE_ENV === "production") {
+  const reactPath = path.resolve(__dirname, "..", "client", "dist");
+  app.use(express.static(reactPath));
+
+  // Any unknown route returns React index.html so React Router can handle it
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(reactPath, "index.html"), (err) => {
+      if (err) {
+        console.log("Error sending client dist index.html:", err.status || 500);
+        res.status(err.status || 500).send("Error sending client dist index.html");
+      }
+    });
   });
-});
+}
 
-// any server errors cause this function to run
+/*
+|--------------------------------------------------------------------------
+| Error handler
+|--------------------------------------------------------------------------
+| If any route throws an error, it lands here.
+*/
 app.use((err, req, res, next) => {
   const status = err.status || 500;
+
   if (status === 500) {
-    // 500 means Internal Server Error
     console.log("The server errored when processing a request!");
     console.log(err);
   }
 
-  res.status(status);
-  res.send({
-    status: status,
-    message: err.message,
-  });
+  res.status(status).send({ status, message: err.message });
 });
 
-// hardcode port to 3000 for now
-const port = 3000;
+/*
+|--------------------------------------------------------------------------
+| HTTP server + sockets
+|--------------------------------------------------------------------------
+| socketManager.init attaches socket.io to this server.
+*/
+const port = process.env.PORT || 3000;
 const server = http.Server(app);
 socketManager.init(server);
 
-server.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
-});
+/*
+| Connect to MongoDB ONCE, then seed, then listen
+|--------------------------------------------------------------------------
+| This is the part that fixes your earlier version.
+| You had mongoose.connect twice. We only do it once here.
+*/
+(async () => {
+  try {
+    await mongoose.connect(mongoConnectionURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName: databaseName,
+    });
+    console.log("Connected to MongoDB");
+
+    // Seed the default map and cells (safe to run repeatedly if your seed is written that way)
+    const { seedDefaultMap } = require("./seed");
+    await seedDefaultMap();
+
+    // Start the server
+    server.listen(port, () => {
+      console.log(`Server running on port: ${port}`);
+    });
+  } catch (err) {
+    console.log(`Error connecting to MongoDB: ${err}`);
+  }
+})();

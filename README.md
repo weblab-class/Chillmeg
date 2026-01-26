@@ -1,93 +1,41 @@
-# How to code a webapp with this skeleton
+# PlaybackXR
 
-## Initial setup
+A browser based sandbox where players claim a plot on an isometric grid, attach a Luma capture, and walk around a shared town.
+url: https://playbackxr.onrender.com/
 
-All teammates will need (explained in weblab.is/hw0)
+## What it does
 
-- A bash console (on Mac or Linux, this is Terminal. On Windows, we recommend Git Bash)
-- NodeJS version 18. If it is installed correctly, typing "node --version" should give v18.13.0 and "npm --version" should give 8.19.3, or higher.
-- Visual Studio Code (or another code editor)
-- the Prettier VSCode extension
+1 Sign in with Google  
+2 Pick a map and see a grid of plots  
+3 Reserve an empty plot  
+4 Paste a Luma capture URL to fill the plot  
+5 Walk the town and view the placed splats  
+6 Select a filled plot and delete it to make the plot empty again
 
-Also, all of you will need to go through the MongoDB Atlas setup (https://bit.ly/mongo-setup).
+## Tech stack
 
-Additionally for authentication, one of you will need to obtain a CLIENT_ID, instructions are at https://bit.ly/gauth-mit.
+Frontend: React + Vite  
+Backend: Node.js + Express  
+Database: MongoDB Atlas  
+Auth: Google OAuth + server sessions  
+Splat viewing: Luma Web Library + three.js
 
-## Downloading these files
+## Demo flow for judges
 
-First, you probably have a team repository somewhere (the link looks like: https://github.com/weblab-class/teammate1-teammate2-teammate3). You each should clone this (empty) repository by navigating to where you want your folder to be (**NOT in catbook**) and typing: git clone https://github.com/weblab-class/teammate1-teammate2-teammate3.git <-- with the correct link.
+1 Open the deployed URL  
+2 Sign in  
+3 Go to Maps  
+4 Click an empty cell to reserve it  
+5 Paste a public Luma capture URL and click Attach  
+6 Click Walk to see the splat placed on the isometric grid  
+7 Click a filled cell in Maps and click Delete selected splat
 
-Then, one of your team members will need to do the following:
+## Local setup
 
-First on GitHub, download the skeleton (this repository) as a zip file, by clicking Code -> Download as ZIP. (Do not clone it, since this will download extra files, like .git, which will lead to GitHub being confused).
+Prereqs: Node 20, npm, MongoDB Atlas connection string, Google OAuth client id.
 
-Then, drag over all of the files in this skeleton into your team's folder. **Make sure to also drag over the hidden files!** To see these hidden files, navigate to the skeleton in Finder/File Explorer and press command+shift+period (mac) or View > Show > Hidden items (windows).
+1 Install
 
-The files/folders you must drag over are:
-
-- .gitignore (hidden)
-- .npmrc (hidden)
-- .prettierrc (hidden)
-- client (folder)
-- package-lock.json
-- package.json
-- README.md
-- server (folder)
-- vite.config.js
-
-Additionally, you must create a .env file in the root directory. See .env.example for an example of what this file should look like.
-
-Then, in terminal, navigate to your teams folder and push all of the files to your team's GitHub repository as usual:
-
-- git add -A
-- git commit -m "Skeleton code"
-- git push
-
-Now the rest of your teammates can pull all these files with a 'git pull'!
-
-Post on Piazza if you run into any issues
-
-## What you need to change in the skeleton
-
-- Change the Frontend CLIENT_ID (Skeleton.js) to your team's CLIENT_ID (obtain this at https://bit.ly/gauth-mit)
-- Change the Server CLIENT_ID to the same CLIENT_ID (auth.js)
-- Change the Database SRV (mongoConnectionURL) for Atlas (server.js). You got this in the MongoDB setup. remember to replace <password> and <dbname> (should be no < or > in your SRV) (From: https://bit.ly/mongo-setup)
-- Change the Database Name for MongoDB to whatever you put in the SRV to replace <dbname> (server.js)
-- (Optional) Add a favicon to your website at the path client/dist/favicon.ico
-- (Optional) Update website title in client/dist/index.html
-- (Optional) Update this README file ;)
-- (Optional) Update the package.json file with your app name :) (line 2)
-
-## How to run this skeleton
-
-First, 'npm install'
-Then open two separate terminals, and 'npm run dev' in the first, and 'npm start' in the second.
-Then open http://localhost:5173
-
-<!-- ## How to go from this skeleton to your actual app
-
-Check out this [How to Get Started Guide](http://weblab.is/get-started) -->
-
-## Socket stuff
-
-Note: we'll be getting to this in lecture in week 2, so don't worry if you don't know it yet
-
-- If you're not using realtime updating or don't need server->client communication, you can remove socket entirely! (server-socket.js, client-socket.js, and anything that imports them)
-- If you are using sockets, consider what you want to do with the FIXME in server-socket.js
-
-## Edit at your own risk
-
-the following files students do not need to edit. feel free to read them if you would like.
-
+```bash
+npm install
 ```
-client/src/utilities.js
-client/src/client-socket.js
-server/validator.js
-server/server-socket.js
-.npmrc
-.prettierrc
-package-lock.json
-vite.config.js
-```
-
-## Good luck on your project :)

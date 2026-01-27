@@ -5,6 +5,8 @@ import NotFound from "./components/pages/NotFound";
 
 import Landing from "./components/pages/Landing";
 import Login from "./components/pages/Login";
+import Home from "./components/pages/Home";
+
 import Maps from "./components/pages/Maps";
 import Walk from "./components/pages/Walk";
 
@@ -17,7 +19,6 @@ import {
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-//TODO: REPLACE WITH YOUR OWN CLIENT_ID
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const router = createBrowserRouter(
@@ -25,13 +26,19 @@ const router = createBrowserRouter(
     <Route errorElement={<NotFound />} element={<App />}>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<Home />} />
+
       <Route path="/maps" element={<Maps />} />
       <Route path="/walk" element={<Walk />} />
+
+      <Route
+        path="/town/:townId"
+        element={<div style={{ padding: 24, color: "#fff" }}>Town page coming next</div>}
+      />
     </Route>
   )
 );
 
-// renders React Component "Root" into the DOM element with ID "root"
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <RouterProvider router={router} />

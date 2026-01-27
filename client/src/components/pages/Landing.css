@@ -1,0 +1,77 @@
+.landingRoot {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.landingVideoLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.landingIframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200vw;
+  height: 112.5vw;
+  min-width: 177.78vh;
+  min-height: 100vh;
+  transform: translate(-50%, -50%);
+  border: 0;
+  opacity: 0.55;
+}
+
+.landingOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.landingCenter {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.landingCard {
+  width: min(520px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 22px;
+  backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.55);
+  color: #fff;
+}
+
+.landingBrand {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.landingTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.landingDesc {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.85;
+  margin-bottom: 16px;
+}
+
+.landingLoginWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}

@@ -88,12 +88,14 @@ const mapsRouter = require("./routes/maps");
 const uploadRouter = require("./routes/upload");
 const lumaRouter = require("./routes/luma");
 const splatsRouter = require("./routes/splats");
+const meRouter = require("./routes/me");
 
 app.use("/api/maps", mapsRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/luma", lumaRouter);
 app.use("/api/splats", splatsRouter);
 app.use("/api/towns", townsRouter);
+app.use("/api/me", meRouter);
 
 app.use("/api", api); // keep the skeleton API last
 

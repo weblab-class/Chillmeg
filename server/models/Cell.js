@@ -9,6 +9,7 @@ const CellSchema = new mongoose.Schema(
     reservedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     reservedUntil: { type: Date, default: null },
     splatId: { type: mongoose.Schema.Types.ObjectId, ref: "Splat", default: null },
+    townID: { type: mongoose.Schema.Types.ObjectId, ref: "Town", index: true },
   },
   { timestamps: true }
 );

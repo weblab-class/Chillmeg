@@ -1,43 +1,39 @@
 const express = require("express");
 const requireUser = require("../middleware/requireUser");
-const TownModel = require("../models/Town");
+
+const Town = require("../models/Town");
 
 const router = express.Router();
 
+// GET /api/towns
 router.get("/", requireUser, async (req, res) => {
-  const towns = await TownModel.find({ ownerId: req.user._id }).sort({ createdAt: -1 });
-  res.json({
-    towns: towns.map((t) => ({
-      _id: t._id,
-      name: t.name,
-      gridSize: t.gridSize,
-      thumbnailUrl: t.thumbnailUrl || "",
-      createdAt: t.createdAt,
-      updatedAt: t.updatedAt,
-    })),
-  });
+  try {
+    const towns = await Town.find({ ownerId: req.user._id }).sort({ createdAt: -1 });
+    res.json({ towns });
+  } catch (e) {
+    console.log("GET /api/towns error:", e);
+    res.status(500).json({ error: e?.message || String(e) });
+  }
 });
 
+// POST /api/towns
 router.post("/", requireUser, async (req, res) => {
-  const name = String(req.body?.name || "").trim() || "Untitled Town";
+  try {
+    const name = String(req.body?.name || "My First Town");
+    const gridSize = Number(req.body?.gridSize || 2);
 
-  const town = await TownModel.create({
-    ownerId: req.user._id,
-    name,
-    gridSize: 2,
-    thumbnailUrl: "",
-  });
+    const town = await Town.create({
+      ownerId: req.user._id,
+      name,
+      gridSize,
+      thumbnailUrl: "",
+    });
 
-  res.json({
-    town: {
-      _id: town._id,
-      name: town.name,
-      gridSize: town.gridSize,
-      thumbnailUrl: town.thumbnailUrl || "",
-      createdAt: town.createdAt,
-      updatedAt: town.updatedAt,
-    },
-  });
+    res.json({ town });
+  } catch (e) {
+    console.log("POST /api/towns error:", e);
+    res.status(500).json({ error: e?.message || String(e) });
+  }
 });
 
 module.exports = router;

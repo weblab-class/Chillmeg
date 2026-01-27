@@ -10,6 +10,8 @@ import Home from "./components/pages/Home";
 import Maps from "./components/pages/Maps";
 import Walk from "./components/pages/Walk";
 
+import Town from "./components/pages/Town";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -31,10 +33,7 @@ const router = createBrowserRouter(
       <Route path="/maps" element={<Maps />} />
       <Route path="/walk" element={<Walk />} />
 
-      <Route
-        path="/town/:townId"
-        element={<div style={{ padding: 24, color: "#fff" }}>Town page coming next</div>}
-      />
+      <Route path="/town/:townId" element={<Town />} />
     </Route>
   )
 );

@@ -28,7 +28,6 @@ const path = require("path");
 const api = require("./api"); // existing skeleton API routes
 const auth = require("./auth"); // populateCurrentUser middleware
 const socketManager = require("./server-socket"); // socket.io init
-const townsRouter = require("./routes/towns");
 
 // Mongo config
 const mongoConnectionURL = process.env.MONGO_SRV; // from your .env
@@ -89,13 +88,14 @@ const uploadRouter = require("./routes/upload");
 const lumaRouter = require("./routes/luma");
 const splatsRouter = require("./routes/splats");
 const meRouter = require("./routes/me");
+const townsRouter = require("./routes/towns");
 
 app.use("/api/maps", mapsRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/luma", lumaRouter);
 app.use("/api/splats", splatsRouter);
-app.use("/api/towns", townsRouter);
 app.use("/api/me", meRouter);
+app.use("/api/towns", townsRouter);
 
 app.use("/api", api); // keep the skeleton API last
 

@@ -1,21 +1,9 @@
 /**
-* Welcome to your ✨𝔲𝔱𝔦𝔩𝔦𝔱𝔶 𝔰𝔱𝔶𝔩𝔢𝔰✨!
-* This file includes utility classes that are super simple
-* and can be used to add general styles; variable definitions
-* for colors; and styles to html, body, and other high level
-* DOMs.
-* 
-* All utility classes start with a `u-` and all do
-* one basic CSS thing (for example, making the font-weight
-* 600 for bolding) or are super generic.
-* 
-* This is 𝙉𝙊𝙏 the place to define classes for components or
-* do rigorous styling. You shoud not need to change this file
-* much after initial creation.
+* Utility styles
 */
 
-/* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+/* Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
   --primary: #396dff;
@@ -41,9 +29,18 @@ body {
     system-ui,
     -apple-system,
     Segoe UI,
-    Roboto,
     Arial,
     sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 form {

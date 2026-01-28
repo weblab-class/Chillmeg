@@ -56,7 +56,7 @@ export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
             justifyContent: "space-between",
             padding: 12,
             color: "rgba(255,255,255,0.92)",
-            fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
+            fontFamily: "Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
           }}
         >
           <div>{splat.name}</div>
@@ -91,7 +91,7 @@ export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
             overflow: "auto",
             padding: 16,
             color: "rgba(255,255,255,0.90)",
-            fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
+            fontFamily: "Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
             fontSize: 13,
           }}
         >

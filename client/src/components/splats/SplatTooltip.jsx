@@ -29,7 +29,7 @@ export default function SplatTooltip({ hover }) {
         borderRadius: 12,
         padding: 10,
         color: "rgba(255,255,255,0.92)",
-        fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
+        fontFamily: "Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
         fontSize: 12,
         lineHeight: 1.35,
         pointerEvents: "none",

@@ -289,3 +289,16 @@
     font-size: 12px;
   }
 }
+.mapNavTutorialBtn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.86);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mapNavTutorialBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}

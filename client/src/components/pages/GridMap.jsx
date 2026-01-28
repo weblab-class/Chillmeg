@@ -148,7 +148,12 @@ export default function GridMap() {
   return (
     <div className="gridmapRoot gridmapSplit">
       <div className="gridmapLeft" style={{ position: "relative" }}>
-        <MapNav me={me} mySplats={mySplats} onOpenSplat={setActiveSplat} />
+        <MapNav
+          me={me}
+          mySplats={mySplats}
+          onOpenSplat={setActiveSplat}
+          onOpenTutorial={() => setShowTutorial(true)}
+        />
 
         <GridCanvas
           splats={splats}

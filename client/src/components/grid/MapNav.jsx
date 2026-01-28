@@ -10,7 +10,7 @@ function initials(name) {
   return (a + b).toUpperCase();
 }
 
-export default function MapNav({ me, mySplats, onOpenSplat }) {
+export default function MapNav({ me, mySplats, onOpenSplat, onOpenTutorial }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -25,6 +25,10 @@ export default function MapNav({ me, mySplats, onOpenSplat }) {
       </button>
 
       <div className="mapNavRight">
+        <button className="mapNavTutorialBtn" onClick={onOpenTutorial}>
+          Tutorial
+        </button>
+
         <div className="mapNavDropdownWrap">
           <button className="mapNavDropdownBtn" onClick={() => setOpen((v) => !v)}>
             Land count: {mySplats.length}

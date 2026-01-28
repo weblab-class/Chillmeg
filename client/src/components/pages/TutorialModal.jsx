@@ -1,5 +1,50 @@
 import React from "react";
 
+const videoStyle = {
+  width: "100%",
+  display: "block",
+  borderRadius: 16,
+  border: "1px solid rgba(255,255,255,0.16)",
+  background: "black",
+};
+
+const captionStyle = {
+  marginTop: 8,
+  fontSize: 12,
+  opacity: 0.65,
+  lineHeight: 1.45,
+};
+
+const sectionTitleStyle = {
+  fontSize: 14,
+  fontWeight: 600,
+  marginBottom: 8,
+};
+
+const sectionBodyStyle = {
+  opacity: 0.86,
+  fontSize: 13,
+  lineHeight: 1.55,
+};
+
+const calloutStyle = {
+  marginTop: 10,
+  marginBottom: 10,
+  padding: 12,
+  borderRadius: 14,
+  border: "1px solid rgba(255,255,255,0.16)",
+  background: "rgba(255,255,255,0.04)",
+  fontSize: 12,
+  opacity: 0.9,
+  lineHeight: 1.5,
+};
+
+const ulStyle = {
+  marginTop: 8,
+  marginBottom: 8,
+  paddingLeft: 18,
+};
+
 export default function TutorialModal({ open, onClose }) {
   if (!open) return null;
 
@@ -21,8 +66,8 @@ export default function TutorialModal({ open, onClose }) {
     >
       <div
         style={{
-          width: "min(860px, 96vw)",
-          height: "min(760px, 92vh)",
+          width: "min(900px, 96vw)",
+          height: "min(780px, 92vh)",
           background: "rgba(0,0,0,0.92)",
           border: "1px solid rgba(255,255,255,0.18)",
           borderRadius: 18,
@@ -42,7 +87,13 @@ export default function TutorialModal({ open, onClose }) {
             borderBottom: "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          <div style={{ fontSize: 16, fontWeight: 600 }}>Quick tutorial</div>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 600 }}>Quick tutorial</div>
+            <div style={{ fontSize: 12, opacity: 0.65, marginTop: 4 }}>
+              Scroll for the full walkthrough
+            </div>
+          </div>
+
           <button
             onClick={onClose}
             style={{
@@ -60,76 +111,125 @@ export default function TutorialModal({ open, onClose }) {
         </div>
 
         <div style={{ padding: 16, overflow: "auto" }}>
-          <Section
-            title="1  Get a Luma capture"
-            body={
-              <>
-                <p>
-                  Create a Gaussian Splat with Luma by uploading a short video or a set of photos.
-                  When it is ready, copy the capture link and paste it into the right panel.
-                </p>
-                <Callout>
-                  Paste a link that looks like:
-                  <br />
-                  lumalabs.ai/capture/...
-                </Callout>
-                <MediaPlaceholder label="Optional: add a gif showing where to copy the link" />
-              </>
-            }
-          />
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>0 Log in</div>
+            <div style={sectionBodyStyle}>
+              <p>Sign in with Google. After login you will land on the map.</p>
 
-          <Section
-            title="2  Select a grid plot"
-            body={
-              <>
-                <p>
-                  Click empty squares to select a plot. Your selection is outlined as one continuous
-                  shape.
-                </p>
-                <ul style={ulStyle}>
-                  <li>White outline means selected</li>
-                  <li>Occupied plots cannot be selected</li>
-                  <li>Your uploads are red, other people’s are white</li>
-                </ul>
-                <MediaPlaceholder label="Optional: add a gif showing selection" />
-              </>
-            }
-          />
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/login.mov" />
+              </video>
+              <div style={captionStyle}>Sign in, then redirect to the grid map.</div>
+            </div>
+          </div>
 
-          <Section
-            title="3  Fill the right panel"
-            body={
-              <>
-                <p>
-                  Add a name, paste the Luma link, and set approximate dimensions. Then click
-                  Upload.
-                </p>
-                <ul style={ulStyle}>
-                  <li>Name shows up on hover and in the landing teaser</li>
-                  <li>Dimensions are for metadata and scale reference</li>
-                </ul>
-                <MediaPlaceholder label="Optional: add a screenshot of the form" />
-              </>
-            }
-          />
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>1 Get a Luma capture</div>
+            <div style={sectionBodyStyle}>
+              <p>
+                Create a Gaussian Splat in Luma by uploading a short video or a set of photos. When
+                it is ready, copy the capture link.
+              </p>
 
-          <Section
-            title="4  View splats and enter VR"
-            body={
-              <>
-                <p>
-                  Hover a plot to see details. Click an occupied plot to open the viewer. If you are
-                  on a Quest 3, click Enter VR in the viewer.
-                </p>
-                <Callout>
-                  Quest 3 tip: open PlaybackXR in the Quest Browser for WebXR support.
-                </Callout>
-                <MediaPlaceholder label="Optional: add a gif showing the modal and VR button" />
-              </>
-            }
-          />
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/lumacaptureweb.mov" />
+              </video>
+              <div style={captionStyle}>Where Luma captures live.</div>
 
-          <div style={{ height: 6 }} />
+              <div style={{ height: 10 }} />
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/createowncapture.mov" />
+              </video>
+              <div style={captionStyle}>Creating your own capture.</div>
+
+              <div style={{ height: 10 }} />
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/gettingCaptureURL.mov" />
+              </video>
+              <div style={captionStyle}>Copy the capture URL.</div>
+
+              <div style={calloutStyle}>
+                Tip: steady motion, good lighting, and full coverage usually produce the best
+                splats.
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>2 Select a plot and upload</div>
+            <div style={sectionBodyStyle}>
+              <p>
+                Click empty squares to select a plot. Then fill in the name and Luma link on the
+                right panel and upload.
+              </p>
+
+              <ul style={ulStyle}>
+                <li>Your uploads render red. Other people’s render white</li>
+                <li>Occupied plots cannot be selected</li>
+                <li>Dimensions are metadata for scale reference</li>
+              </ul>
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/gridSelectionDataInput.mov" />
+              </video>
+              <div style={captionStyle}>Selecting squares and filling out the upload form.</div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>3 Navigate and explore</div>
+            <div style={sectionBodyStyle}>
+              <p>
+                Pan and zoom to explore. Hover for details. Click an occupied plot to open the
+                viewer.
+              </p>
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/sceneNabDemo.mov" />
+              </video>
+              <div style={captionStyle}>Panning and navigating the grid map.</div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>4 Top bar features</div>
+            <div style={sectionBodyStyle}>
+              <p>
+                PlaybackXR returns to the landing page. Land count lists your uploads and opens
+                them.
+              </p>
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/navbar.mov" />
+              </video>
+              <div style={captionStyle}>Navbar overview with land count dropdown.</div>
+
+              <div style={{ height: 10 }} />
+
+              <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
+                <source src="/Tutorial/backToLanding.mov" />
+              </video>
+              <div style={captionStyle}>Return to landing page.</div>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 18 }}>
+            <div style={sectionTitleStyle}>5 VR viewing on Quest 3</div>
+            <div style={sectionBodyStyle}>
+              <p>
+                Open a splat, then press Enter VR inside the viewer. For best results, use the Quest
+                Browser on Meta Quest 3.
+              </p>
+
+              <div style={calloutStyle}>
+                If you do not see the VR button, your browser may not support WebXR or may not be in
+                a secure context.
+              </div>
+            </div>
+          </div>
+
           <div style={{ opacity: 0.6, fontSize: 12 }}>
             You can reopen this tutorial later from the top bar.
           </div>
@@ -138,55 +238,3 @@ export default function TutorialModal({ open, onClose }) {
     </div>
   );
 }
-
-function Section({ title, body }) {
-  return (
-    <div style={{ marginBottom: 18 }}>
-      <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>{title}</div>
-      <div style={{ opacity: 0.86, fontSize: 13, lineHeight: 1.55 }}>{body}</div>
-    </div>
-  );
-}
-
-function Callout({ children }) {
-  return (
-    <div
-      style={{
-        marginTop: 10,
-        marginBottom: 10,
-        padding: 12,
-        borderRadius: 14,
-        border: "1px solid rgba(255,255,255,0.16)",
-        background: "rgba(255,255,255,0.04)",
-        fontSize: 12,
-        opacity: 0.9,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function MediaPlaceholder({ label }) {
-  return (
-    <div
-      style={{
-        marginTop: 10,
-        borderRadius: 16,
-        border: "1px dashed rgba(255,255,255,0.22)",
-        background: "rgba(255,255,255,0.03)",
-        padding: 14,
-        fontSize: 12,
-        opacity: 0.65,
-      }}
-    >
-      {label}
-    </div>
-  );
-}
-
-const ulStyle = {
-  marginTop: 8,
-  marginBottom: 8,
-  paddingLeft: 18,
-};

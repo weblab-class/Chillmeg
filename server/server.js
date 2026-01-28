@@ -83,19 +83,13 @@ app.use(auth.populateCurrentUser);
 |
 | This is why /api/luma/attach will work only if lumaRouter is mounted here.
 */
-const mapsRouter = require("./routes/maps");
-const uploadRouter = require("./routes/upload");
 const lumaRouter = require("./routes/luma");
 const splatsRouter = require("./routes/splats");
 const meRouter = require("./routes/me");
-const townsRouter = require("./routes/towns");
 
-app.use("/api/maps", mapsRouter);
-app.use("/api/upload", uploadRouter);
 app.use("/api/luma", lumaRouter);
 app.use("/api/splats", splatsRouter);
 app.use("/api/me", meRouter);
-app.use("/api/towns", townsRouter);
 
 app.use("/api", api); // keep the skeleton API last
 

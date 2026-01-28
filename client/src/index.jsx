@@ -5,12 +5,6 @@ import NotFound from "./components/pages/NotFound";
 
 import Landing from "./components/pages/Landing";
 import Login from "./components/pages/Login";
-import Home from "./components/pages/Home";
-
-import Maps from "./components/pages/Maps";
-import Walk from "./components/pages/Walk";
-
-import Town from "./components/pages/Town";
 
 import GridMap from "./components/pages/GridMap";
 
@@ -30,13 +24,7 @@ const router = createBrowserRouter(
     <Route errorElement={<NotFound />} element={<App />}>
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Home />} />
       <Route path="/grid" element={<GridMap />} />
-
-      <Route path="/maps" element={<Maps />} />
-      <Route path="/walk" element={<Walk />} />
-
-      <Route path="/town/:townId" element={<Town />} />
     </Route>
   )
 );

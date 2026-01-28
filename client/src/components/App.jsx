@@ -9,6 +9,8 @@ import { socket } from "../client-socket";
 
 import { get, post } from "../utilities";
 
+import GridMap from "./pages/GridMap";
+
 export const UserContext = createContext(null);
 
 /**

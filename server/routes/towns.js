@@ -16,6 +16,25 @@ router.get("/", requireUser, async (req, res) => {
   }
 });
 
+// GET /api/towns/:townId
+router.get("/:townId", requireUser, async (req, res) => {
+  try {
+    const { townId } = req.params;
+
+    const town = await Town.findOne({
+      _id: townId,
+      ownerId: req.user._id,
+    });
+
+    if (!town) return res.status(404).json({ error: "Town not found" });
+
+    res.json({ town });
+  } catch (e) {
+    console.log("GET /api/towns/:townId error:", e);
+    res.status(500).json({ error: e?.message || String(e) });
+  }
+});
+
 // POST /api/towns
 router.post("/", requireUser, async (req, res) => {
   try {

@@ -41,7 +41,7 @@ export default function Landing() {
           </div>
 
           <div className="landingLoginWrap">
-            <Login onSuccess={() => navigate("/home")} />
+            <Login onSuccess={() => navigate("/grid")} />
           </div>
         </div>
       </div>

@@ -1,0 +1,93 @@
+.gridmapRoot {
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  overflow: hidden;
+  position: relative;
+}
+
+.gridmapSplit {
+  display: flex;
+}
+
+.gridmapLeft {
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.gridmapCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gridmapRight {
+  width: 360px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  background: black;
+  color: rgba(255, 255, 255, 0.92);
+  padding: 16px;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+}
+
+.gridmapFormTitle {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.gridmapFormSmall {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.gridmapFormHint {
+  margin-top: 12px;
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+.gridmapHud {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  user-select: none;
+}
+
+.gridmapHudTitle {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.gridmapHudSmall {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.gridmapHudBtn {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}

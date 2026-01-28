@@ -12,6 +12,8 @@ import Walk from "./components/pages/Walk";
 
 import Town from "./components/pages/Town";
 
+import GridMap from "./components/pages/GridMap";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -29,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/grid" element={<GridMap />} />
 
       <Route path="/maps" element={<Maps />} />
       <Route path="/walk" element={<Walk />} />

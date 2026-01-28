@@ -28,7 +28,7 @@
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   background: black;
   color: rgba(255, 255, 255, 0.92);
-  padding: 16px;
+  padding: 16px 16px 40px;
   font-family:
     Poppins,
     system-ui,
@@ -196,6 +196,15 @@
   padding-bottom: 12px;
   margin-bottom: 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gridmapFooter {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  opacity: 0.65;
+  text-align: right;
 }
 
 .gridmapPanelTitle {

@@ -18,6 +18,7 @@ export default function GridMap() {
 
   const [selectedMap, setSelectedMap] = useState({});
   const [showTutorial, setShowTutorial] = useState(false);
+  const [rightPanelOpen, setRightPanelOpen] = useState(true);
 
   const selectedCells = useMemo(() => {
     return Object.keys(selectedMap).map((kstr) => {
@@ -153,6 +154,8 @@ export default function GridMap() {
           mySplats={mySplats}
           onOpenSplat={setActiveSplat}
           onOpenTutorial={() => setShowTutorial(true)}
+          rightPanelOpen={rightPanelOpen}
+          onToggleRightPanel={() => setRightPanelOpen((v) => !v)}
         />
 
         <GridCanvas
@@ -164,13 +167,13 @@ export default function GridMap() {
           onHover={setHover}
         />
 
-        <div className="gridmapHud">
-          <div className="gridmapHudTitle">Grid</div>
-          <div className="gridmapHudSmall">
-            Hover: {hover?.cell ? `${hover.cell.x}, ${hover.cell.y}` : "none"}
-          </div>
-          <div className="gridmapHudSmall">Selected: {selectionCount}</div>
-          <div className="gridmapHudSmall">Pan: right click or middle click</div>
+      <div className="gridmapHud">
+        <div className="gridmapHudTitle">Grid</div>
+        <div className="gridmapHudSmall">
+          Hover: {hover?.cell ? `${hover.cell.x}, ${hover.cell.y}` : "none"}
+        </div>
+        <div className="gridmapHudSmall">Selected: {selectionCount}</div>
+        <div className="gridmapHudSmall">Pan: drag (any button), middle, or right</div>
           <div className="gridmapHudSmall">Zoom: wheel</div>
 
           {selectionCount > 0 ? (
@@ -192,27 +195,31 @@ export default function GridMap() {
         <TutorialModal open={showTutorial} onClose={() => setShowTutorial(false)} />
       </div>
 
-      <div className="gridmapRight">
-        {selectionCount > 0 ? (
-          <SplatForm
-            selectedCount={selectionCount}
-            form={form}
-            setForm={setForm}
-            onUpload={onUpload}
-          />
-        ) : (
-          <div>
-            <div className="gridmapPanelHeader">
-              <div className="gridmapPanelTitle">No selection</div>
-              <div className="gridmapPanelSub">Click empty squares to start a new upload</div>
-            </div>
+      {rightPanelOpen ? (
+        <div className="gridmapRight">
+          {selectionCount > 0 ? (
+            <SplatForm
+              selectedCount={selectionCount}
+              form={form}
+              setForm={setForm}
+              onUpload={onUpload}
+            />
+          ) : (
+            <div>
+              <div className="gridmapPanelHeader">
+                <div className="gridmapPanelTitle">No selection</div>
+                <div className="gridmapPanelSub">Click empty squares to start a new upload</div>
+              </div>
 
-            <div className="gridmapEmptyStateBody">
-              Tip: select multiple adjacent squares. Your uploads render red and can be deleted.
+              <div className="gridmapEmptyStateBody">
+                Tip: select multiple adjacent squares. Your uploads render red and can be deleted.
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+
+          <div className="gridmapFooter">© 2026 PlaybackXR, Qilmeg Doudatcz</div>
+        </div>
+      ) : null}
     </div>
   );
 }

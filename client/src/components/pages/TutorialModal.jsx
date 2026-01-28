@@ -131,7 +131,10 @@ export default function TutorialModal({ open, onClose }) {
             <div style={sectionBodyStyle}>
               <p>
                 Create a Gaussian Splat in Luma by uploading a short video or a set of photos. When
-                it is ready, copy the capture link.
+                it is ready, copy the capture link. Create and find capture links here:{" "}
+                <a href="https://lumalabs.ai/dashboard/captures">
+                  https://lumalabs.ai/dashboard/captures
+                </a>
               </p>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>

@@ -102,8 +102,6 @@ export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
             <br />
             Dimensions: {dims}
             <br />
-            File size: {size}
-            <br />
             Occupied squares: {(splat.cells || []).length}
           </div>
 

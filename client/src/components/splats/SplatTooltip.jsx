@@ -16,7 +16,6 @@ export default function SplatTooltip({ hover }) {
   const dims = s.dimensions
     ? `${s.dimensions.x} by ${s.dimensions.y} by ${s.dimensions.z} m`
     : "Unknown";
-  const size = s.fileSizeBytes ? `${Math.round(s.fileSizeBytes / 1024 / 1024)} MB` : "Unknown";
 
   return (
     <div
@@ -40,8 +39,7 @@ export default function SplatTooltip({ hover }) {
       <div style={{ fontSize: 13, marginBottom: 6 }}>{s.name}</div>
       <div>Owner: {s.ownerName || "Unknown"}</div>
       <div>Date: {formatDate(s.createdAt)}</div>
-      <div>Dimensions: {dims}</div>
-      <div>File size: {size}</div>
+      <div>Dimensions: {dims}</div>\{" "}
     </div>
   );
 }

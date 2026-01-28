@@ -25,8 +25,6 @@
   width: min(380px, 36vw);
   min-width: 280px;
   max-width: 420px;
-  flex-shrink: 0;
-  overflow-y: auto;
   border-left: 1px solid rgba(255, 255, 255, 0.15);
   background: black;
   color: rgba(255, 255, 255, 0.92);
@@ -57,7 +55,6 @@
 }
 
 .gridmapHud {
-  pointer-events: none;
   position: absolute;
   top: 14px;
   left: 14px;
@@ -88,7 +85,6 @@
 }
 
 .gridmapHudBtn {
-  pointer-events: auto;
   margin-top: 10px;
   background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.92);

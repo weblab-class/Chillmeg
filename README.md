@@ -38,6 +38,8 @@ Sign in with Google. After login you land on the map.
 
 Create a capture by uploading a short video or image set, then copy the capture URL.
 
+You can create your own or find example capture here: https://lumalabs.ai/dashboard/captures.
+
 ### 2 Select a plot and upload
 
 Select one or more empty grid cells, then fill the right panel:

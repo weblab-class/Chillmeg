@@ -271,3 +271,21 @@
   opacity: 0.7;
   line-height: 1.5;
 }
+
+@media (max-width: 520px) {
+  .mapNavDropdownBtn {
+    padding: 10px 10px;
+    font-size: 12px;
+  }
+
+  .mapNavBrand {
+    padding: 10px 10px;
+    font-size: 12px;
+  }
+
+  .mapNavAvatar {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+}

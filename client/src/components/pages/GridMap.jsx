@@ -6,6 +6,7 @@ import SplatForm from "../splats/SplatForm";
 import SplatTooltip from "../splats/SplatTooltip";
 import SplatModal from "../splats/SplatModal";
 import "./GridMap.css";
+import MapNav from "../grid/MapNav";
 
 export default function GridMap() {
   const [me, setMe] = useState(null);
@@ -29,6 +30,10 @@ export default function GridMap() {
     const id = me?._id || me?.id || null;
     return id ? String(id) : null;
   }, [me]);
+
+  const mySplats = useMemo(() => {
+    return (splats || []).filter((s) => isMineSplat(s));
+  }, [splats, myId]);
 
   function isMineSplat(s) {
     if (!s) return false;
@@ -131,6 +136,7 @@ export default function GridMap() {
   return (
     <div className="gridmapRoot gridmapSplit">
       <div className="gridmapLeft" style={{ position: "relative" }}>
+        <MapNav me={me} mySplats={mySplats} onOpenSplat={setActiveSplat} />
         <GridCanvas
           splats={splats}
           selectedCells={selectedCells}

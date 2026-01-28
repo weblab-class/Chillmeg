@@ -93,3 +93,96 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.mapNavRoot {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.mapNavBrand {
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.mapNavRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.mapNavDropdownWrap {
+  position: relative;
+}
+
+.mapNavDropdownBtn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.86);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mapNavDropdownPanel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 260px;
+  max-height: 340px;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 14px;
+  padding: 8px;
+}
+
+.mapNavDropdownItem {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid transparent;
+  padding: 10px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.mapNavDropdownItem:hover {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mapNavDropdownEmpty {
+  color: rgba(255, 255, 255, 0.6);
+  padding: 10px 10px;
+  font-size: 12px;
+}
+
+.mapNavAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}

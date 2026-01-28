@@ -19,3 +19,24 @@ export async function createSplat(payload) {
 
   return res.json();
 }
+
+export async function deleteSplat(id) {
+  const res = await fetch(`/api/splats/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || "Delete failed");
+  }
+
+  return res.json();
+}
+
+export async function fetchMe() {
+  const res = await fetch("/api/me", { credentials: "include" });
+  if (!res.ok) return null;
+  const data = await res.json().catch(() => null);
+  return data?.user || data || null;
+}

@@ -45,6 +45,9 @@ const ulStyle = {
   paddingLeft: 18,
 };
 
+const tutorialBase = (import.meta?.env?.BASE_URL || "/").replace(/\/?$/, "/");
+const t = (file) => `${tutorialBase}Tutorial/${file}`;
+
 export default function TutorialModal({ open, onClose }) {
   if (!open) return null;
 
@@ -117,7 +120,7 @@ export default function TutorialModal({ open, onClose }) {
               <p>Sign in with Google. After login you will land on the map.</p>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/login.mov" />
+                <source src={t("login.mov")} />
               </video>
               <div style={captionStyle}>Sign in, then redirect to the grid map.</div>
             </div>
@@ -132,21 +135,21 @@ export default function TutorialModal({ open, onClose }) {
               </p>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/lumacaptureweb.mov" />
+                <source src={t("lumacaptureweb.mov")} />
               </video>
               <div style={captionStyle}>Where Luma captures live.</div>
 
               <div style={{ height: 10 }} />
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/createowncapture.mov" />
+                <source src={t("createowncapture.mov")} />
               </video>
               <div style={captionStyle}>Creating your own capture.</div>
 
               <div style={{ height: 10 }} />
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/gettingCaptureURL.mov" />
+                <source src={t("gettingCaptureURL.mov")} />
               </video>
               <div style={captionStyle}>Copy the capture URL.</div>
 
@@ -172,7 +175,7 @@ export default function TutorialModal({ open, onClose }) {
               </ul>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/gridSelectionDataInput.mov" />
+                <source src={t("gridSelectionDataInput.mov")} />
               </video>
               <div style={captionStyle}>Selecting squares and filling out the upload form.</div>
             </div>
@@ -187,7 +190,7 @@ export default function TutorialModal({ open, onClose }) {
               </p>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/sceneNabDemo.mov" />
+                <source src={t("sceneNabDemo.mov")} />
               </video>
               <div style={captionStyle}>Panning and navigating the grid map.</div>
             </div>
@@ -202,14 +205,14 @@ export default function TutorialModal({ open, onClose }) {
               </p>
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/navbar.mov" />
+                <source src={t("navbar.mov")} />
               </video>
               <div style={captionStyle}>Navbar overview with land count dropdown.</div>
 
               <div style={{ height: 10 }} />
 
               <video autoPlay loop muted playsInline controls preload="metadata" style={videoStyle}>
-                <source src="/Tutorial/backToLanding.mov" />
+                <source src={t("backToLanding.mov")} />
               </video>
               <div style={captionStyle}>Return to landing page.</div>
             </div>

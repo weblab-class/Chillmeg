@@ -12,7 +12,16 @@ export default function GridCanvas({
   const canvasRef = useRef(null);
 
   const camRef = useRef({ offsetX: 0, offsetY: 0, scale: 60 });
-  const panRef = useRef({ active: false, sx: 0, sy: 0, ox: 0, oy: 0 });
+  const panRef = useRef({
+    active: false,
+    armed: false,
+    sx: 0,
+    sy: 0,
+    ox: 0,
+    oy: 0,
+    wasPan: false,
+    cell: null,
+  });
 
   const hoverCellRef = useRef(null);
 
@@ -180,6 +189,7 @@ export default function GridCanvas({
 
     const onWinMouseUp = () => {
       panRef.current.active = false;
+      panRef.current.armed = false;
     };
     window.addEventListener("mouseup", onWinMouseUp);
 
@@ -237,6 +247,21 @@ export default function GridCanvas({
           return;
         }
 
+        if (panRef.current.armed && e.buttons & 1) {
+          const dx = e.clientX - panRef.current.sx;
+          const dy = e.clientY - panRef.current.sy;
+          if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+            panRef.current.active = true;
+            panRef.current.wasPan = true;
+            panRef.current.ox = camRef.current.offsetX;
+            panRef.current.oy = camRef.current.offsetY;
+            camRef.current.offsetX = panRef.current.ox + dx;
+            camRef.current.offsetY = panRef.current.oy + dy;
+            draw();
+            return;
+          }
+        }
+
         draw();
       }}
       onMouseDown={(e) => {
@@ -245,6 +270,9 @@ export default function GridCanvas({
 
         const splat = occupiedCellToSplat.get(key(cell.x, cell.y)) || null;
         onHover({ cell, splat, mouse: { x: e.clientX, y: e.clientY } });
+
+        panRef.current.wasPan = false;
+        panRef.current.cell = cell;
 
         if (e.button === 1 || e.button === 2) {
           panRef.current.active = true;
@@ -256,6 +284,24 @@ export default function GridCanvas({
         }
 
         if (e.button === 0) {
+          panRef.current.armed = true;
+          panRef.current.sx = e.clientX;
+          panRef.current.sy = e.clientY;
+          panRef.current.ox = camRef.current.offsetX;
+          panRef.current.oy = camRef.current.offsetY;
+        }
+      }}
+      onMouseUp={(e) => {
+        const wasPan = panRef.current.wasPan;
+        const armed = panRef.current.armed;
+        const cell = panRef.current.cell || cellFromEvent(e);
+        const splat = occupiedCellToSplat.get(key(cell.x, cell.y)) || null;
+
+        panRef.current.active = false;
+        panRef.current.armed = false;
+        panRef.current.cell = null;
+
+        if (e.button === 0 && armed && !wasPan) {
           if (splat) {
             onOpenSplat(splat);
             return;
@@ -263,11 +309,9 @@ export default function GridCanvas({
           onToggleCell(cell);
         }
       }}
-      onMouseUp={() => {
-        panRef.current.active = false;
-      }}
       onMouseLeave={() => {
         panRef.current.active = false;
+        panRef.current.armed = false;
       }}
       onWheel={(e) => {
         e.preventDefault();

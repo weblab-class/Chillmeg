@@ -2,15 +2,38 @@ const mongoose = require("mongoose");
 
 const SplatSchema = new mongoose.Schema(
   {
-    ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    mapId: { type: mongoose.Schema.Types.ObjectId, ref: "Map", required: true },
-    cellId: { type: mongoose.Schema.Types.ObjectId, ref: "Cell", required: true },
-    status: { type: String, enum: ["queued", "ready", "failed"], default: "queued" },
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    ownerName: {
+      type: String,
+      required: true,
+    },
 
-    lumaCaptureUrl: { type: String, default: "" },
+    name: {
+      type: String,
+      required: true,
+    },
 
-    assetUrl: { type: String, required: true },
-    placeholderUrl: { type: String, required: true },
+    lumaUrl: {
+      type: String,
+      required: true,
+    },
+
+    dimensions: {
+      x: Number,
+      y: Number,
+      z: Number,
+    },
+
+    cells: [
+      {
+        x: Number,
+        y: Number,
+      },
+    ],
   },
   { timestamps: true }
 );

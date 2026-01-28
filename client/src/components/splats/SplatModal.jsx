@@ -82,7 +82,7 @@ export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
             borderTop: "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          <LumaWebViewer sourceUrl={splat.lumaUrl} />
+          <LumaWebViewer sourceUrl={splat.lumaUrl} enableVR={true} />
         </div>
 
         <div

@@ -1,48 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Login from "./Login";
+import LandingTeaser from "./LandingTeaser";
 import "./Landing.css";
 
 export default function Landing() {
-  const navigate = useNavigate();
-  const YT_ID = "jV_am1GXbGM";
-
   return (
     <div className="landingRoot">
-      <div className="landingVideoLayer">
-        <iframe
-          title="bg"
-          className="landingIframe"
-          src={
-            "https://www.youtube.com/embed/" +
-            YT_ID +
-            "?autoplay=1" +
-            "&mute=1" +
-            "&controls=0" +
-            "&rel=0" +
-            "&modestbranding=1" +
-            "&playsinline=1" +
-            "&loop=1" +
-            "&playlist=" +
-            YT_ID
-          }
-          allow="autoplay; encrypted-media; picture-in-picture"
-        />
-      </div>
-
+      <LandingTeaser />
       <div className="landingOverlay" />
 
       <div className="landingCenter">
         <div className="landingCard">
           <div className="landingBrand">PlaybackXR</div>
-          <div className="landingTitle">Build an isometric splat town</div>
+
+          <div className="landingTitle">Gaussian Splat Sandbox</div>
+
           <div className="landingDesc">
-            Pick a plot, attach a Luma capture link, then explore the town.
+            Pick your squares, attach a Luma capture, and build a shared splat map.
           </div>
+
+          <div className="landingMeta">VR ready. Open a splat, then enter VR on Meta Quest 3.</div>
 
           <div className="landingLoginWrap">
             <Login onSuccess={() => window.location.assign("/grid")} />
           </div>
+
+          <div className="landingHint">Dots are live uploads. Claim a plot to add yours.</div>
         </div>
       </div>
     </div>

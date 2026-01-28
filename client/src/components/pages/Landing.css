@@ -1,39 +1,21 @@
 .landingRoot {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #000;
-}
-
-.landingVideoLayer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.landingIframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200vw;
-  height: 112.5vw;
-  min-width: 177.78vh;
-  min-height: 100vh;
-  transform: translate(-50%, -50%);
-  border: 0;
-  opacity: 0.55;
+  background: black;
 }
 
 .landingOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.72) 68%),
+    rgba(0, 0, 0, 0.18);
 }
 
 .landingCenter {
   position: relative;
-  z-index: 2;
   height: 100%;
   display: flex;
   align-items: center;
@@ -42,36 +24,56 @@
 }
 
 .landingCard {
-  width: min(520px, 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  width: min(560px, 92vw);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 18px;
   padding: 22px;
+  color: rgba(255, 255, 255, 0.92);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
   backdrop-filter: blur(10px);
-  background: rgba(10, 10, 10, 0.55);
-  color: #fff;
 }
 
 .landingBrand {
   font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 6px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 10px;
 }
 
 .landingTitle {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.1;
   margin-bottom: 10px;
 }
 
 .landingDesc {
   font-size: 14px;
   line-height: 1.5;
-  opacity: 0.85;
+  opacity: 0.84;
+  margin-bottom: 10px;
+}
+
+.landingMeta {
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.72;
   margin-bottom: 16px;
 }
 
 .landingLoginWrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
+  margin-top: 10px;
+}
+
+.landingHint {
+  margin-top: 14px;
+  font-size: 12px;
+  opacity: 0.62;
 }

@@ -2,103 +2,75 @@
 
 https://playbackxr.onrender.com/
 
-PlaybackXR is a collaborative, web-based sandbox for building and exploring shared Gaussian Splat environments, designed to make advanced 3D reconstruction and immersive viewing accessible directly through the browser and WebXR.
+PlaybackXR is a collaborative, web based sandbox for building and exploring shared Gaussian Splat environments, designed for accessible cultural documentation and immersive spatial replay through WebXR.
 
 ---
 
 ## Project Summary
 
-PlaybackXR enables users to claim spatial plots on a shared infinite grid, attach Gaussian Splat captures generated from real-world video, and collectively assemble a navigable virtual environment.  
-The project reframes Gaussian Splats not as isolated visual artifacts, but as spatially indexed, shared pieces of a growing world that can be explored on desktop or in VR using WebXR.
+PlaybackXR is motivated by cultural and spatial preservation in the age of emerging 3D reconstruction. Gaussian Splats can capture fragile, remote, or culturally meaningful environments with high fidelity, but these reconstructions often stay locked inside specialized viewers and file based workflows. PlaybackXR reframes splats as shared spatial artifacts by indexing them on an infinite grid that anyone can understand: claim plots, attach captures, and collectively assemble a navigable world that works on desktop and in VR using WebXR.
 
-The system emphasizes accessibility, collaboration, and cultural preservation by lowering the technical barrier to creating, sharing, and experiencing volumetric spatial media.
-
----
-
-## What Is Gaussian Splatting?
-
-Gaussian Splatting is a real-time 3D rendering technique that represents scenes as millions of oriented 3D Gaussian primitives instead of traditional polygon meshes.
-
-Compared to meshes or point clouds, Gaussian Splats:
-
-- Preserve fine visual detail from video-based captures
-- Render efficiently on the GPU
-- Avoid complex mesh cleanup workflows
-- Accurately reconstruct irregular or culturally significant spaces
-
-PlaybackXR uses Gaussian Splats generated externally via Luma AI and focuses on how these reconstructions are spatially organized, navigated, and shared.
+The core UI innovation is the combination of a minimal two dimensional plot interface with immersive volumetric viewing. Each occupied plot becomes a stable spatial address for a 3D capture, lowering the cognitive barrier of 3D world building while still supporting WebXR entry for devices such as Meta Quest 3.
 
 ---
 
-## What Is WebXR?
+## What Is Gaussian Splatting
 
-WebXR is a browser standard that enables immersive VR and AR experiences directly on the web without native applications.
+Gaussian Splatting is a real time 3D rendering technique that represents a scene as many volumetric Gaussian primitives rather than polygon meshes. It enables photoreal reconstruction from images or video and supports interactive viewpoint changes with strong visual fidelity.
 
-PlaybackXR integrates WebXR to:
-
-- Enable immersive viewing on devices such as Meta Quest 3
-- Maintain a single codebase for desktop and VR
-- Allow users to enter VR directly from the browser
-- Remove the need for app installation or platform lock-in
-
-This allows volumetric content to remain widely accessible while still supporting high-end immersive hardware.
+PlaybackXR uses externally generated splat captures and focuses on how they are organized, navigated, and experienced collaboratively on the web.
 
 ---
 
-## User Walkthrough
+## What Is WebXR
 
-### 1. Log In
-
-Users authenticate via Google OAuth. After login, they are taken directly to the shared grid map.
-
-### 2. Create a Gaussian Splat
-
-Users generate a Gaussian Splat using Luma AI by uploading a short video or image set. Once processing is complete, they copy the capture URL.
-
-### 3. Claim a Plot
-
-Users select one or more empty grid cells on the map. The selection merges into a single outlined region, reinforcing the idea of spatial ownership rather than discrete pixels.
-
-### 4. Upload
-
-Users enter:
-
-- A name for the splat
-- The Luma capture URL
-- Optional dimensional metadata
-
-The splat is then attached to the selected plot.
-
-### 5. Explore
-
-- Pan and zoom across the grid
-- Hover to see metadata
-- Click occupied plots to open an embedded viewer
-
-### 6. VR Viewing
-
-Inside the viewer, users can enter VR using WebXR. PlaybackXR is optimized for Meta Quest 3 using Quest Browser.
-
-### 7. Navigation Tools
-
-The top navigation bar allows users to:
-
-- Return to the landing page
-- View a list of their uploaded plots
-- Reopen the tutorial at any time
+WebXR is a browser standard that enables immersive VR and AR experiences directly in web pages. PlaybackXR uses WebXR through Three.js so users can open a capture and enter VR in a compatible browser without installing a native app.
 
 ---
 
-## Why This Project Matters
+## User Tutorial
 
-PlaybackXR explores how emerging spatial media can be:
+### 0 Log in
 
-- Organized spatially rather than buried in file systems
-- Shared collaboratively across users
-- Viewed without proprietary software
-- Used for documentation, memory, and cultural preservation
+Sign in with Google. After login you land on the map.
 
-By combining Gaussian Splatting, WebXR, and a simple grid metaphor, the project proposes a scalable model for shared spatial archives and collective digital environments.
+### 1 Get a Luma capture
+
+Create a capture by uploading a short video or image set, then copy the capture URL.
+
+### 2 Select a plot and upload
+
+Select one or more empty grid cells, then fill the right panel:
+
+- Name
+- Luma capture URL
+- Optional dimensions as metadata
+
+Submit to attach your capture to the selected plot.
+
+### 3 Navigate and explore
+
+- Pan with right click or middle click
+- Zoom with the mouse wheel
+- Hover to see basic metadata
+- Click occupied plots to open the viewer
+
+### 4 Navbar features
+
+- PlaybackXR at top left returns to landing
+- Tutorial button reopens this tutorial
+- Land count lists your uploads and opens them
+- Avatar shows current user
+
+### 5 VR viewing on Quest 3
+
+Open a splat and click Enter VR inside the viewer. Best experienced using Meta Quest Browser.
+
+---
+
+## Why This Matters
+
+PlaybackXR blends high fidelity spatial capture with an accessible organizing metaphor to support collaborative memory spaces and heritage documentation. It reduces complex volumetric media to a simple social interface: a shared map, plot ownership, and web native immersive viewing.
 
 ---
 
@@ -107,54 +79,86 @@ By combining Gaussian Splatting, WebXR, and a simple grid metaphor, the project 
 ### Frontend
 
 - React with Vite
-- Custom HTML Canvas grid renderer
-- Three.js for Gaussian Splat viewing
-- WebXR integration for VR
-- Responsive CSS for desktop and mobile
-- Google OAuth authentication
+- React Router for routing
+- HTML Canvas based grid renderer for selection and navigation
+- Three.js for 3D scene rendering and interaction
+- WebXR via Three.js VRButton utilities
+- Luma Web Library for rendering Luma Interactive Scenes captures
+- Google OAuth UI for login
 
 ### Backend
 
 - Node.js
 - Express
-- MongoDB
-- Session-based authentication
-- REST APIs for users and splats
+- express-session for session cookies
+- MongoDB with Mongoose for persistence
+- REST endpoints for user session and splat records
 
 ### Hosting
 
-- Render for deployment
-- MongoDB Atlas
-- Static assets served from Vite public directory
+- Render for hosting
+- MongoDB Atlas for database
 
 ---
 
-## Libraries and APIs
+## Third Party Libraries and APIs
 
-- React
-- Vite
-- Three.js
-- WebXR
-- Luma AI Web Viewer
-- Google OAuth
-- MongoDB
-- Express
-- Node.js
-- Socket.io (infrastructure prepared)
+This section is written to satisfy requirements to include all third party code and APIs.
+
+### Frontend libraries
+
+- React  
+  https://react.dev/
+- Vite  
+  https://vitejs.dev/
+- React Router  
+  https://reactrouter.com/en/main/routers/create-browser-router
+- Three.js  
+  https://threejs.org/docs/
+- Three.js OrbitControls example module  
+  https://threejs.org/docs/
+- Three.js VRButton WebXR utility  
+  https://threejs.org/docs/pages/VRButton.html
+- Luma Web Library  
+  https://lumalabs.ai/luma-web-library/
+
+### Auth libraries and APIs
+
+- @react-oauth/google  
+  https://www.npmjs.com/package/@react-oauth/google  
+  https://github.com/MomenSherif/react-oauth
+- Google Identity Services  
+  https://developers.google.com/identity
+
+### Backend libraries
+
+- Node.js  
+  https://nodejs.org/
+- Express  
+  https://expressjs.com/
+- express-session  
+  https://www.npmjs.com/package/express-session
+- MongoDB  
+  https://www.mongodb.com/
+- MongoDB Atlas  
+  https://www.mongodb.com/atlas
+- Mongoose  
+  https://mongoosejs.com/
+
+### Hosting and infrastructure
+
+- Render  
+  https://render.com/
+
+### External content and services
+
+- Luma Interactive Scenes capture links are user provided. PlaybackXR loads those captures for viewing through the Luma Web Library.  
+  https://lumalabs.ai/interactive-scenes/
 
 ---
 
-## Local Development
+## AI Assistance Disclosure
 
-### Requirements
+AI tools were used as a development assistant for drafting, debugging, and refactoring support, similar to a Codex style coding companion. AI was treated as a tool, not an author. All project direction, interface decisions, interaction design, and conceptual framing, including the heritage protection motivation and the grid based UI approach, were developed and finalized by the project author.
 
-- Node.js
-- MongoDB
-- Google OAuth credentials
-
-### Setup
-
-```bash
-npm install
-npm run dev
-```
+---

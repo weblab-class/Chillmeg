@@ -5,8 +5,9 @@ import GridCanvas from "../grid/GridCanvas";
 import SplatForm from "../splats/SplatForm";
 import SplatTooltip from "../splats/SplatTooltip";
 import SplatModal from "../splats/SplatModal";
-import "./GridMap.css";
 import MapNav from "../grid/MapNav";
+import TutorialModal from "./TutorialModal";
+import "./GridMap.css";
 
 export default function GridMap() {
   const [me, setMe] = useState(null);
@@ -16,6 +17,7 @@ export default function GridMap() {
   const [activeSplat, setActiveSplat] = useState(null);
 
   const [selectedMap, setSelectedMap] = useState({});
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const selectedCells = useMemo(() => {
     return Object.keys(selectedMap).map((kstr) => {
@@ -31,16 +33,26 @@ export default function GridMap() {
     return id ? String(id) : null;
   }, [me]);
 
-  const mySplats = useMemo(() => {
-    return (splats || []).filter((s) => isMineSplat(s));
-  }, [splats, myId]);
-
   function isMineSplat(s) {
     if (!s) return false;
     const oid = s.ownerId?._id || s.ownerId || null;
     if (!oid || !myId) return false;
     return String(oid) === String(myId);
   }
+
+  const mySplats = useMemo(() => {
+    return (splats || []).filter((s) => isMineSplat(s));
+  }, [splats, myId]);
+
+  useEffect(() => {
+    if (!myId) return;
+    const k = `tutorial_seen_${myId}`;
+    const seen = localStorage.getItem(k);
+    if (!seen) {
+      setShowTutorial(true);
+      localStorage.setItem(k, "1");
+    }
+  }, [myId]);
 
   async function reloadSplatsSafe() {
     try {
@@ -137,6 +149,7 @@ export default function GridMap() {
     <div className="gridmapRoot gridmapSplit">
       <div className="gridmapLeft" style={{ position: "relative" }}>
         <MapNav me={me} mySplats={mySplats} onOpenSplat={setActiveSplat} />
+
         <GridCanvas
           splats={splats}
           selectedCells={selectedCells}
@@ -163,12 +176,15 @@ export default function GridMap() {
         </div>
 
         <SplatTooltip hover={hover} />
+
         <SplatModal
           splat={activeSplat}
           canDelete={isMineSplat(activeSplat)}
           onClose={() => setActiveSplat(null)}
           onDelete={onDeleteActive}
         />
+
+        <TutorialModal open={showTutorial} onClose={() => setShowTutorial(false)} />
       </div>
 
       <div className="gridmapRight">
@@ -180,10 +196,14 @@ export default function GridMap() {
             onUpload={onUpload}
           />
         ) : (
-          <div style={{ opacity: 0.75 }}>
-            <div style={{ fontSize: 15, marginBottom: 8 }}>No selection</div>
-            <div style={{ fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>
-              Click one or more empty squares on the grid to start a new upload.
+          <div>
+            <div className="gridmapPanelHeader">
+              <div className="gridmapPanelTitle">No selection</div>
+              <div className="gridmapPanelSub">Click empty squares to start a new upload</div>
+            </div>
+
+            <div className="gridmapEmptyStateBody">
+              Tip: select multiple adjacent squares. Your uploads render red and can be deleted.
             </div>
           </div>
         )}

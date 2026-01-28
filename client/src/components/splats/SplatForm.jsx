@@ -3,68 +3,63 @@ import React from "react";
 export default function SplatForm({ selectedCount, form, setForm, onUpload }) {
   return (
     <div>
-      <div className="gridmapFormTitle">New Splat</div>
-      <div className="gridmapFormSmall">{selectedCount} squares selected</div>
+      <div className="gridmapPanelHeader">
+        <div className="gridmapPanelTitle">New Splat</div>
+        <div className="gridmapPanelSub">{selectedCount} squares selected</div>
+      </div>
 
-      <div style={{ height: 12 }} />
+      <div className="gridmapField">
+        <label className="gridmapLabel">Name</label>
+        <input
+          className="gridmapInput"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          placeholder="name"
+        />
+      </div>
 
-      <label style={{ fontSize: 12, opacity: 0.85 }}>Name</label>
-      <input
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-        style={inputStyle}
-        placeholder="name"
-      />
+      <div className="gridmapField">
+        <label className="gridmapLabel">Luma url</label>
+        <input
+          className="gridmapInput"
+          value={form.lumaUrl}
+          onChange={(e) => setForm({ ...form, lumaUrl: e.target.value })}
+          placeholder="https://..."
+        />
+      </div>
 
-      <label style={{ fontSize: 12, opacity: 0.85, marginTop: 10 }}>Luma url</label>
-      <input
-        value={form.lumaUrl}
-        onChange={(e) => setForm({ ...form, lumaUrl: e.target.value })}
-        style={inputStyle}
-        placeholder="https://..."
-      />
-
-      <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontSize: 12, opacity: 0.85 }}>X m</label>
+      <div className="gridmapRow3">
+        <div>
+          <label className="gridmapLabel">X m</label>
           <input
+            className="gridmapInput"
             value={form.x}
             onChange={(e) => setForm({ ...form, x: e.target.value })}
-            style={inputStyle}
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontSize: 12, opacity: 0.85 }}>Y m</label>
+
+        <div>
+          <label className="gridmapLabel">Y m</label>
           <input
+            className="gridmapInput"
             value={form.y}
             onChange={(e) => setForm({ ...form, y: e.target.value })}
-            style={inputStyle}
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontSize: 12, opacity: 0.85 }}>Z m</label>
+
+        <div>
+          <label className="gridmapLabel">Z m</label>
           <input
+            className="gridmapInput"
             value={form.z}
             onChange={(e) => setForm({ ...form, z: e.target.value })}
-            style={inputStyle}
           />
         </div>
       </div>
 
-      <button className="gridmapHudBtn" style={{ marginTop: 14 }} onClick={onUpload}>
+      <button className="gridmapPrimaryBtn" onClick={onUpload}>
         Upload
       </button>
     </div>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  marginTop: 6,
-  background: "rgba(255,255,255,0.06)",
-  color: "white",
-  border: "1px solid rgba(255,255,255,0.18)",
-  padding: 10,
-  borderRadius: 12,
-  outline: "none",
-};

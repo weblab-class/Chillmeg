@@ -57,7 +57,7 @@
 
 .gridmapHud {
   position: absolute;
-  top: 14px;
+  top: 72px;
   left: 14px;
   padding: 10px 12px;
   border-radius: 12px;
@@ -186,4 +186,88 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
+}
+
+.gridmapRight {
+  overflow: auto;
+}
+
+.gridmapPanelHeader {
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gridmapPanelTitle {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.gridmapPanelSub {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.gridmapField {
+  margin-top: 12px;
+}
+
+.gridmapLabel {
+  display: block;
+  font-size: 12px;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.gridmapInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 10px 12px;
+  border-radius: 14px;
+  outline: none;
+  font-size: 13px;
+}
+
+.gridmapInput:focus {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gridmapRow3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.gridmapPrimaryBtn {
+  margin-top: 14px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.gridmapPrimaryBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.gridmapEmptyStateTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.gridmapEmptyStateBody {
+  font-size: 12px;
+  opacity: 0.7;
+  line-height: 1.5;
 }

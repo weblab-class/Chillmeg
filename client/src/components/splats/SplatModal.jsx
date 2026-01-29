@@ -10,8 +10,17 @@ function formatDate(v) {
   }
 }
 
-export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
+export default function SplatModal({
+  splat,
+  canDelete,
+  onClose,
+  onDelete,
+  onOpenOwnerUploads,
+}) {
   if (!splat) return null;
+
+  const ownerId = splat.ownerId?._id || splat.ownerId || null;
+  const ownerName = splat.ownerName || "Unknown";
 
   const dims = splat.dimensions
     ? `${splat.dimensions.x} by ${splat.dimensions.y} by ${splat.dimensions.z} m`
@@ -96,8 +105,26 @@ export default function SplatModal({ splat, canDelete, onClose, onDelete }) {
           }}
         >
           <div style={{ opacity: 0.9 }}>
-            Owner: {splat.ownerName || "Unknown"}
-            <br />
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span>Owner:</span>
+              {onOpenOwnerUploads && ownerId ? (
+                <button
+                  onClick={() => onOpenOwnerUploads({ ownerId, ownerName })}
+                  style={{
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1px solid rgba(255,255,255,0.20)",
+                    color: "rgba(255,255,255,0.95)",
+                    padding: "6px 10px",
+                    borderRadius: 10,
+                    cursor: "pointer",
+                  }}
+                >
+                  {ownerName}
+                </button>
+              ) : (
+                <span>{ownerName}</span>
+              )}
+            </div>
             Date: {formatDate(splat.createdAt)}
             <br />
             Dimensions: {dims}

@@ -5,6 +5,7 @@ import GridCanvas from "../grid/GridCanvas";
 import SplatForm from "../splats/SplatForm";
 import SplatTooltip from "../splats/SplatTooltip";
 import SplatModal from "../splats/SplatModal";
+import OwnerUploadsModal from "../splats/OwnerUploadsModal";
 import MapNav from "../grid/MapNav";
 import TutorialModal from "./TutorialModal";
 import "./GridMap.css";
@@ -15,6 +16,7 @@ export default function GridMap() {
 
   const [hover, setHover] = useState(null);
   const [activeSplat, setActiveSplat] = useState(null);
+  const [ownerModal, setOwnerModal] = useState(null);
 
   const [selectedMap, setSelectedMap] = useState({});
   const [showTutorial, setShowTutorial] = useState(false);
@@ -34,9 +36,13 @@ export default function GridMap() {
     return id ? String(id) : null;
   }, [me]);
 
+  function getOwnerId(s) {
+    return s?.ownerId?._id || s?.ownerId || null;
+  }
+
   function isMineSplat(s) {
     if (!s) return false;
-    const oid = s.ownerId?._id || s.ownerId || null;
+    const oid = getOwnerId(s);
     if (!oid || !myId) return false;
     return String(oid) === String(myId);
   }
@@ -146,6 +152,11 @@ export default function GridMap() {
 
   const selectionCount = selectedCells.length;
 
+  const ownerUploads = useMemo(() => {
+    if (!ownerModal?.ownerId) return [];
+    return (splats || []).filter((s) => String(getOwnerId(s)) === String(ownerModal.ownerId));
+  }, [ownerModal, splats]);
+
   return (
     <div className="gridmapRoot gridmapSplit">
       <div className="gridmapLeft" style={{ position: "relative" }}>
@@ -167,13 +178,13 @@ export default function GridMap() {
           onHover={setHover}
         />
 
-      <div className="gridmapHud">
-        <div className="gridmapHudTitle">Grid</div>
-        <div className="gridmapHudSmall">
-          Hover: {hover?.cell ? `${hover.cell.x}, ${hover.cell.y}` : "none"}
-        </div>
-        <div className="gridmapHudSmall">Selected: {selectionCount}</div>
-        <div className="gridmapHudSmall">Pan: drag (any button), middle, or right</div>
+        <div className="gridmapHud">
+          <div className="gridmapHudTitle">Grid</div>
+          <div className="gridmapHudSmall">
+            Hover: {hover?.cell ? `${hover.cell.x}, ${hover.cell.y}` : "none"}
+          </div>
+          <div className="gridmapHudSmall">Selected: {selectionCount}</div>
+          <div className="gridmapHudSmall">Pan: drag (any button), middle, or right</div>
           <div className="gridmapHudSmall">Zoom: wheel</div>
 
           {selectionCount > 0 ? (
@@ -190,6 +201,23 @@ export default function GridMap() {
           canDelete={isMineSplat(activeSplat)}
           onClose={() => setActiveSplat(null)}
           onDelete={onDeleteActive}
+          onOpenOwnerUploads={({ ownerId, ownerName }) => {
+            if (!ownerId) return;
+            setOwnerModal({
+              ownerId: String(ownerId),
+              ownerName: ownerName || "Unknown",
+            });
+          }}
+        />
+
+        <OwnerUploadsModal
+          open={!!ownerModal}
+          ownerName={ownerModal?.ownerName}
+          uploads={ownerUploads}
+          onClose={() => setOwnerModal(null)}
+          onOpenSplat={(s) => {
+            setActiveSplat(s);
+          }}
         />
 
         <TutorialModal open={showTutorial} onClose={() => setShowTutorial(false)} />

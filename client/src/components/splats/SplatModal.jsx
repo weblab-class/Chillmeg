@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LumaWebViewer from "./LumaWebViewer";
 
 function formatDate(v) {
@@ -19,6 +19,9 @@ export default function SplatModal({
 }) {
   if (!splat) return null;
 
+  const [copyMsg, setCopyMsg] = useState("");
+  const [liked, setLiked] = useState(false);
+
   const ownerId = splat.ownerId?._id || splat.ownerId || null;
   const ownerName = splat.ownerName || "Unknown";
 
@@ -29,6 +32,17 @@ export default function SplatModal({
   const size = splat.fileSizeBytes
     ? `${Math.round(splat.fileSizeBytes / 1024 / 1024)} MB`
     : "Unknown";
+
+  const handleShare = async () => {
+    const text = splat.lumaUrl || window.location.href;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopyMsg("Link copied to clipboard");
+    } catch {
+      setCopyMsg("Copy failed");
+    }
+    setTimeout(() => setCopyMsg(""), 1800);
+  };
 
   return (
     <div
@@ -105,26 +119,86 @@ export default function SplatModal({
           }}
         >
           <div style={{ opacity: 0.9 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span>Owner:</span>
-              {onOpenOwnerUploads && ownerId ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 10,
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span>Owner:</span>
+                {onOpenOwnerUploads && ownerId ? (
+                  <button
+                    onClick={() => onOpenOwnerUploads({ ownerId, ownerName })}
+                    style={{
+                      background: "rgba(255,255,255,0.08)",
+                      border: "1px solid rgba(255,255,255,0.20)",
+                      color: "rgba(255,255,255,0.95)",
+                      padding: "6px 10px",
+                      borderRadius: 10,
+                      cursor: "pointer",
+                    }}
+                  >
+                    {ownerName}
+                  </button>
+                ) : (
+                  <span>{ownerName}</span>
+                )}
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <button
-                  onClick={() => onOpenOwnerUploads({ ownerId, ownerName })}
+                  onClick={handleShare}
+                  title="Share"
                   style={{
+                    width: 42,
+                    height: 42,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.20)",
+                    border: "1px solid rgba(255,255,255,0.18)",
+                    borderRadius: 12,
                     color: "rgba(255,255,255,0.95)",
-                    padding: "6px 10px",
-                    borderRadius: 10,
+                    fontSize: 18,
                     cursor: "pointer",
                   }}
                 >
-                  {ownerName}
+                  🔗
                 </button>
-              ) : (
-                <span>{ownerName}</span>
-              )}
+                <button
+                  onClick={() => setLiked((v) => !v)}
+                  title="Like"
+                  style={{
+                    width: 42,
+                    height: 42,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: liked
+                      ? "rgba(255,0,100,0.22)"
+                      : "rgba(255,255,255,0.08)",
+                    border: liked
+                      ? "1px solid rgba(255,0,100,0.55)"
+                      : "1px solid rgba(255,255,255,0.18)",
+                    borderRadius: 12,
+                    color: liked ? "#ff4f8b" : "rgba(255,255,255,0.95)",
+                    fontSize: 18,
+                    cursor: "pointer",
+                    transition: "all 120ms ease",
+                  }}
+                >
+                  {liked ? "❤️" : "🤍"}
+                </button>
+              </div>
             </div>
+            {copyMsg ? (
+              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 6, textAlign: "right" }}>
+                {copyMsg}
+              </div>
+            ) : null}
             Date: {formatDate(splat.createdAt)}
             <br />
             Dimensions: {dims}

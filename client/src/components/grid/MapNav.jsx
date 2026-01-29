@@ -10,9 +10,10 @@ function initials(name) {
   return (a + b).toUpperCase();
 }
 
-export default function MapNav({ me, mySplats, onOpenSplat, onOpenTutorial }) {
+export default function MapNav({ me, mySplats, likedSplats = [], onOpenSplat, onOpenTutorial }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [openLiked, setOpenLiked] = useState(false);
 
   const myName = useMemo(() => {
     return me?.name || me?.username || me?.email || "User";
@@ -25,12 +26,59 @@ export default function MapNav({ me, mySplats, onOpenSplat, onOpenTutorial }) {
       </button>
 
       <div className="mapNavRight">
-        <button className="mapNavTutorialBtn" onClick={onOpenTutorial}>
+        <button
+          className="mapNavTutorialBtn"
+          onClick={() => {
+            setOpen(false);
+            setOpenLiked(false);
+            onOpenTutorial();
+          }}
+        >
           Tutorial
         </button>
 
         <div className="mapNavDropdownWrap">
-          <button className="mapNavDropdownBtn" onClick={() => setOpen((v) => !v)}>
+          <button
+            className="mapNavDropdownBtn"
+            onClick={() => {
+              setOpen(false);
+              setOpenLiked((v) => !v);
+            }}
+          >
+            Liked: {likedSplats.length}
+          </button>
+
+          {openLiked ? (
+            <div className="mapNavDropdownPanel">
+              {likedSplats.length === 0 ? (
+                <div className="mapNavDropdownEmpty">No likes yet</div>
+              ) : (
+                likedSplats.map((s) => (
+                  <button
+                    key={s._id}
+                    className="mapNavDropdownItem"
+                    onClick={() => {
+                      setOpenLiked(false);
+                      setOpen(false);
+                      onOpenSplat(s);
+                    }}
+                  >
+                    {s.name || "Untitled"}
+                  </button>
+                ))
+              )}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="mapNavDropdownWrap">
+          <button
+            className="mapNavDropdownBtn"
+            onClick={() => {
+              setOpenLiked(false);
+              setOpen((v) => !v);
+            }}
+          >
             Land count: {mySplats.length}
           </button>
 

@@ -17,6 +17,16 @@ export default function GridMap() {
   const [hover, setHover] = useState(null);
   const [activeSplat, setActiveSplat] = useState(null);
   const [ownerModal, setOwnerModal] = useState(null);
+  const [likedIds, setLikedIds] = useState(() => {
+    const raw = localStorage.getItem("liked_splats");
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
 
   const [selectedMap, setSelectedMap] = useState({});
   const [showTutorial, setShowTutorial] = useState(false);
@@ -157,12 +167,28 @@ export default function GridMap() {
     return (splats || []).filter((s) => String(getOwnerId(s)) === String(ownerModal.ownerId));
   }, [ownerModal, splats]);
 
+  const likedSplats = useMemo(() => {
+    if (!likedIds.length) return [];
+    return (splats || []).filter((s) => likedIds.includes(String(s._id)));
+  }, [likedIds, splats]);
+
+  function toggleLike(splat) {
+    if (!splat?._id) return;
+    const id = String(splat._id);
+    setLikedIds((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem("liked_splats", JSON.stringify(next));
+      return next;
+    });
+  }
+
   return (
     <div className="gridmapRoot gridmapSplit">
       <div className="gridmapLeft" style={{ position: "relative" }}>
         <MapNav
           me={me}
           mySplats={mySplats}
+          likedSplats={likedSplats}
           onOpenSplat={setActiveSplat}
           onOpenTutorial={() => setShowTutorial(true)}
           rightPanelOpen={rightPanelOpen}
@@ -208,6 +234,8 @@ export default function GridMap() {
               ownerName: ownerName || "Unknown",
             });
           }}
+          liked={activeSplat ? likedIds.includes(String(activeSplat._id)) : false}
+          onToggleLike={() => toggleLike(activeSplat)}
         />
 
         <OwnerUploadsModal

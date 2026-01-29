@@ -16,12 +16,12 @@ export default function SplatModal({
   onClose,
   onDelete,
   onOpenOwnerUploads,
+  liked = false,
+  onToggleLike,
 }) {
   if (!splat) return null;
 
   const [copyMsg, setCopyMsg] = useState("");
-  const [liked, setLiked] = useState(false);
-
   const ownerId = splat.ownerId?._id || splat.ownerId || null;
   const ownerName = splat.ownerName || "Unknown";
 
@@ -169,7 +169,7 @@ export default function SplatModal({
                   🔗
                 </button>
                 <button
-                  onClick={() => setLiked((v) => !v)}
+                  onClick={onToggleLike}
                   title="Like"
                   style={{
                     width: 42,

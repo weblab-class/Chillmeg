@@ -191,6 +191,13 @@ export default function GridMap() {
           likedSplats={likedSplats}
           onOpenSplat={setActiveSplat}
           onOpenTutorial={() => setShowTutorial(true)}
+          onOpenOwnerUploads={({ ownerId, ownerName }) => {
+            if (!ownerId) return;
+            setOwnerModal({
+              ownerId: String(ownerId),
+              ownerName: ownerName || "Unknown",
+            });
+          }}
           rightPanelOpen={rightPanelOpen}
           onToggleRightPanel={() => setRightPanelOpen((v) => !v)}
         />

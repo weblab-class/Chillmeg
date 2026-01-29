@@ -10,7 +10,14 @@ function initials(name) {
   return (a + b).toUpperCase();
 }
 
-export default function MapNav({ me, mySplats, likedSplats = [], onOpenSplat, onOpenTutorial }) {
+export default function MapNav({
+  me,
+  mySplats,
+  likedSplats = [],
+  onOpenSplat,
+  onOpenTutorial,
+  onOpenOwnerUploads,
+}) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openLiked, setOpenLiked] = useState(false);
@@ -104,7 +111,21 @@ export default function MapNav({ me, mySplats, likedSplats = [], onOpenSplat, on
           ) : null}
         </div>
 
-        <div className="mapNavAvatar" title={myName}>
+        <div
+          className="mapNavAvatar"
+          title={myName}
+          onClick={() => {
+            setOpen(false);
+            setOpenLiked(false);
+            if (onOpenOwnerUploads && me?._id) {
+              onOpenOwnerUploads({
+                ownerId: String(me._id),
+                ownerName: myName,
+              });
+            }
+          }}
+          style={{ cursor: onOpenOwnerUploads ? "pointer" : "default" }}
+        >
           {initials(myName)}
         </div>
       </div>
